@@ -135,7 +135,7 @@
         function App() {
             // State
             const [baseColor, setBaseColor] = useState('#3b82f6');
-            const [steps, setSteps] = useState(5); 
+            const [steps, setSteps] = useState(5); // Default 5
             const [contrast, setContrast] = useState(15); 
             const [hueShift, setHueShift] = useState(10); 
             const [satShift, setSatShift] = useState(10); 
@@ -154,7 +154,7 @@
             const palette = useMemo(() => {
                 const { h: baseH, s: baseS, l: baseL } = hexToHSL(baseColor);
                 const colors = [];
-                const midPoint = Math.floor(steps / 2);
+                const midPoint = (steps - 1) / 2; // Floating point center for even numbers
 
                 for (let i = 0; i < steps; i++) {
                     const offset = i - midPoint; 
@@ -186,26 +186,19 @@
             };
 
             const copyToClipboard = (text) => {
-                // Fallback method using document.execCommand('copy')
-                // This is required because navigator.clipboard is often blocked in iframes
                 const textArea = document.createElement("textarea");
                 textArea.value = text;
-                
-                // Ensure the textarea is not visible but part of the DOM
                 textArea.style.position = "fixed";
                 textArea.style.left = "-9999px";
                 textArea.style.top = "0";
                 document.body.appendChild(textArea);
-                
                 textArea.focus();
                 textArea.select();
-                
                 try {
                     document.execCommand('copy');
                 } catch (err) {
                     console.error('Unable to copy', err);
                 }
-                
                 document.body.removeChild(textArea);
             };
 
@@ -233,24 +226,27 @@
                         
                         {/* LEFT: Controls */}
                         <div className="lg:col-span-1 space-y-6">
-                            {/* Base Color Input */}
+                            {/* Base Color Input - ENLARGED */}
                             <div className="bg-[#1f2937] p-5 rounded-2xl border border-gray-700 shadow-xl">
                                 <label className="block text-gray-400 text-xs font-bold uppercase mb-3 tracking-wider">Màu Chủ Đạo (Base)</label>
-                                <div className="flex gap-3">
-                                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-inner ring-2 ring-gray-600">
+                                <div className="flex gap-4">
+                                    <div className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-inner ring-4 ring-gray-600 shrink-0">
                                         <input 
                                             type="color" 
                                             value={baseColor} 
                                             onChange={(e) => setBaseColor(e.target.value)}
-                                            className="absolute -top-4 -left-4 w-24 h-24 cursor-pointer"
+                                            className="absolute -top-8 -left-8 w-40 h-40 cursor-pointer"
                                         />
                                     </div>
-                                    <input 
-                                        type="text" 
-                                        value={baseColor.toUpperCase()}
-                                        onChange={(e) => setBaseColor(e.target.value)}
-                                        className="flex-1 bg-gray-900 border border-gray-700 rounded-xl px-4 text-white font-mono text-lg focus:outline-none focus:border-blue-500 uppercase"
-                                    />
+                                    <div className="flex-1 flex flex-col justify-center gap-2">
+                                        <input 
+                                            type="text" 
+                                            value={baseColor.toUpperCase()}
+                                            onChange={(e) => setBaseColor(e.target.value)}
+                                            className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white font-mono text-xl focus:outline-none focus:border-blue-500 uppercase"
+                                        />
+                                        <p className="text-[10px] text-gray-500">Nhấn vào ô màu để chọn</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -268,19 +264,19 @@
                                 
                                 {showSettings && (
                                     <div className="p-5 space-y-6">
-                                        {/* Steps */}
+                                        {/* Steps - FLEXIBLE RANGE 2-32 */}
                                         <div>
                                             <div className="flex justify-between text-xs mb-2">
                                                 <span className="text-gray-400">Số lượng màu (Steps)</span>
                                                 <span className="text-blue-400 font-bold">{steps}</span>
                                             </div>
                                             <input 
-                                                type="range" min="2" max="16" step="1"
+                                                type="range" min="2" max="32" step="1"
                                                 value={steps} onChange={(e) => setSteps(Number(e.target.value))}
                                                 className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
                                             />
-                                            <div className="flex justify-between text-[10px] text-gray-500 mt-1">
-                                                <span>2</span><span>16</span>
+                                            <div className="flex justify-between text-[10px] text-gray-500 mt-1 font-mono">
+                                                <span>2</span><span>32</span>
                                             </div>
                                         </div>
 
