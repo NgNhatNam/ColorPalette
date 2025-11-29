@@ -385,15 +385,12 @@
             };
 
             const handleWheel = (e) => {
-                if (e.ctrlKey || e.metaKey) {
-                    // Zoom
-                    e.preventDefault();
-                    const delta = -e.deltaY;
-                    setScale(s => Math.max(0.1, Math.min(20, s + (delta * 0.005 * s)))); // Zoom exponential-ish
-                } else {
-                    // Pan
-                    // e.preventDefault(); // Optional, maybe let default scroll happen if fits
-                }
+                e.preventDefault();
+                // Zoom Logic
+                const zoomIntensity = 0.1;
+                const delta = e.deltaY < 0 ? 1 : -1;
+                const newScale = Math.max(0.1, Math.min(50, scale * (1 + delta * zoomIntensity)));
+                setScale(newScale);
             };
 
             // Render to Canvas
