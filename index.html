@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Palette Generator</title>
+    
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Pixel Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1b26;
+            color: #a9b1d6;
+        }
+        .font-pixel {
+            font-family: 'Press Start 2P', cursive;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1b26; }
+        ::-webkit-scrollbar-thumb { background: #414868; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #565f89; }
+        
+        .color-swatch {
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .color-swatch:active {
+            transform: scale(0.95);
+        }
+        .checkered-bg {
+            background-image: 
+                linear-gradient(45deg, #2a2b36 25%, transparent 25%), 
+                linear-gradient(-45deg, #2a2b36 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #2a2b36 75%), 
+                linear-gradient(-45deg, transparent 75%, #2a2b36 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        // --- ICONS (SVG Internal) ---
+        const Icon = ({ path, size = 20, className = "" }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {path}
+            </svg>
+        );
+
+        const Save = (p) => <Icon {...p} path={<><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></>} />;
+        const Trash2 = (p) => <Icon {...p} path={<><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></>} />;
+        const Copy = (p) => <Icon {...p} path={<><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></>} />;
+        const RefreshCw = (p) => <Icon {...p} path={<><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></>} />;
+        const Sun = (p) => <Icon {...p} path={<><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></>} />;
+        const Moon = (p) => <Icon {...p} path={<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>} />;
+        const Palette = (p) => <Icon {...p} path={<><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></>} />;
+        const Sliders = (p) => <Icon {...p} path={<><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></>} />;
+        const ChevronDown = (p) => <Icon {...p} path={<polyline points="6 9 12 15 18 9"/>} />;
+        const ChevronUp = (p) => <Icon {...p} path={<polyline points="18 15 12 9 6 15"/>} />;
+
+        // --- COLOR UTILS ---
+        
+        function hexToHSL(H) {
+            let r = 0, g = 0, b = 0;
+            if (H.length == 4) {
+                r = "0x" + H[1] + H[1];
+                g = "0x" + H[2] + H[2];
+                b = "0x" + H[3] + H[3];
+            } else if (H.length == 7) {
+                r = "0x" + H[1] + H[2];
+                g = "0x" + H[3] + H[4];
+                b = "0x" + H[5] + H[6];
+            }
+            r /= 255; g /= 255; b /= 255;
+            let cmin = Math.min(r,g,b), cmax = Math.max(r,g,b), delta = cmax - cmin;
+            let h = 0, s = 0, l = 0;
+
+            if (delta == 0) h = 0;
+            else if (cmax == r) h = ((g - b) / delta) % 6;
+            else if (cmax == g) h = (b - r) / delta + 2;
+            else h = (r - g) / delta + 4;
+
+            h = Math.round(h * 60);
+            if (h < 0) h += 360;
+
+            l = (cmax + cmin) / 2;
+            s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+            s = +(s * 100).toFixed(1);
+            l = +(l * 100).toFixed(1);
+
+            return { h, s, l };
+        }
+
+        function hslToHex(h, s, l) {
+            s /= 100; l /= 100;
+            let c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+                m = l - c / 2,
+                r = 0, g = 0, b = 0;
+
+            if (0 <= h && h < 60) { r = c; g = x; b = 0; }
+            else if (60 <= h && h < 120) { r = x; g = c; b = 0; }
+            else if (120 <= h && h < 180) { r = 0; g = c; b = x; }
+            else if (180 <= h && h < 240) { r = 0; g = x; b = c; }
+            else if (240 <= h && h < 300) { r = x; g = 0; b = c; }
+            else if (300 <= h && h < 360) { r = c; g = 0; b = x; }
+
+            r = Math.round((r + m) * 255).toString(16);
+            g = Math.round((g + m) * 255).toString(16);
+            b = Math.round((b + m) * 255).toString(16);
+
+            if (r.length == 1) r = "0" + r;
+            if (g.length == 1) g = "0" + g;
+            if (b.length == 1) b = "0" + b;
+
+            return "#" + r + g + b;
+        }
+
+        // --- COMPONENTS ---
+
+        function App() {
+            // State
+            const [baseColor, setBaseColor] = useState('#3b82f6');
+            const [steps, setSteps] = useState(5); 
+            const [contrast, setContrast] = useState(15); 
+            const [hueShift, setHueShift] = useState(10); 
+            const [satShift, setSatShift] = useState(10); 
+            const [savedPalettes, setSavedPalettes] = useState(() => {
+                const saved = localStorage.getItem('pixelPalettes');
+                return saved ? JSON.parse(saved) : [];
+            });
+            const [showSettings, setShowSettings] = useState(true);
+
+            // Save to localStorage
+            useEffect(() => {
+                localStorage.setItem('pixelPalettes', JSON.stringify(savedPalettes));
+            }, [savedPalettes]);
+
+            // Generate Palette Logic
+            const palette = useMemo(() => {
+                const { h: baseH, s: baseS, l: baseL } = hexToHSL(baseColor);
+                const colors = [];
+                const midPoint = Math.floor(steps / 2);
+
+                for (let i = 0; i < steps; i++) {
+                    const offset = i - midPoint; 
+                    
+                    let h = (baseH + (offset * hueShift)) % 360;
+                    if (h < 0) h += 360;
+
+                    let s = Math.max(0, Math.min(100, baseS + (offset * satShift * -0.5)));
+                    let l = Math.max(0, Math.min(100, baseL + (offset * contrast)));
+
+                    colors.push(hslToHex(h, s, l));
+                }
+                return colors;
+            }, [baseColor, steps, contrast, hueShift, satShift]);
+
+            const saveCurrentPalette = () => {
+                const newPalette = {
+                    id: Date.now(),
+                    colors: palette,
+                    base: baseColor
+                };
+                setSavedPalettes([newPalette, ...savedPalettes]);
+            };
+
+            const deletePalette = (id) => {
+                if(confirm("Xóa bảng màu này?")) {
+                    setSavedPalettes(savedPalettes.filter(p => p.id !== id));
+                }
+            };
+
+            const copyToClipboard = (text) => {
+                // Fallback method using document.execCommand('copy')
+                // This is required because navigator.clipboard is often blocked in iframes
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                
+                // Ensure the textarea is not visible but part of the DOM
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Unable to copy', err);
+                }
+                
+                document.body.removeChild(textArea);
+            };
+
+            return (
+                <div className="min-h-screen p-4 md:p-8 max-w-5xl mx-auto">
+                    {/* Header */}
+                    <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20">
+                                <Palette className="text-white" size={24} />
+                            </div>
+                            <div>
+                                <h1 className="text-2xl md:text-3xl font-bold text-white font-pixel leading-tight">Pixel Palette</h1>
+                                <p className="text-sm text-gray-400">Trình tạo màu cho Pixel Art</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <button onClick={() => setBaseColor('#' + Math.floor(Math.random()*16777215).toString(16))} className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+                                <RefreshCw size={16} /> Random
+                            </button>
+                        </div>
+                    </header>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        
+                        {/* LEFT: Controls */}
+                        <div className="lg:col-span-1 space-y-6">
+                            {/* Base Color Input */}
+                            <div className="bg-[#1f2937] p-5 rounded-2xl border border-gray-700 shadow-xl">
+                                <label className="block text-gray-400 text-xs font-bold uppercase mb-3 tracking-wider">Màu Chủ Đạo (Base)</label>
+                                <div className="flex gap-3">
+                                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-inner ring-2 ring-gray-600">
+                                        <input 
+                                            type="color" 
+                                            value={baseColor} 
+                                            onChange={(e) => setBaseColor(e.target.value)}
+                                            className="absolute -top-4 -left-4 w-24 h-24 cursor-pointer"
+                                        />
+                                    </div>
+                                    <input 
+                                        type="text" 
+                                        value={baseColor.toUpperCase()}
+                                        onChange={(e) => setBaseColor(e.target.value)}
+                                        className="flex-1 bg-gray-900 border border-gray-700 rounded-xl px-4 text-white font-mono text-lg focus:outline-none focus:border-blue-500 uppercase"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Sliders */}
+                            <div className="bg-[#1f2937] rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
+                                <div 
+                                    className="p-4 bg-gray-800 flex justify-between items-center cursor-pointer border-b border-gray-700"
+                                    onClick={() => setShowSettings(!showSettings)}
+                                >
+                                    <div className="flex items-center gap-2 text-white font-bold text-sm">
+                                        <Sliders size={16} /> Thông Số Kỹ Thuật
+                                    </div>
+                                    {showSettings ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                                </div>
+                                
+                                {showSettings && (
+                                    <div className="p-5 space-y-6">
+                                        {/* Steps */}
+                                        <div>
+                                            <div className="flex justify-between text-xs mb-2">
+                                                <span className="text-gray-400">Số lượng màu (Steps)</span>
+                                                <span className="text-blue-400 font-bold">{steps}</span>
+                                            </div>
+                                            <input 
+                                                type="range" min="2" max="16" step="1"
+                                                value={steps} onChange={(e) => setSteps(Number(e.target.value))}
+                                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                            />
+                                            <div className="flex justify-between text-[10px] text-gray-500 mt-1">
+                                                <span>2</span><span>16</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Contrast (Lightness) */}
+                                        <div>
+                                            <div className="flex justify-between text-xs mb-2">
+                                                <span className="text-gray-400">Độ Tương Phản (Contrast)</span>
+                                                <span className="text-yellow-400 font-bold">{contrast}%</span>
+                                            </div>
+                                            <input 
+                                                type="range" min="5" max="30"
+                                                value={contrast} onChange={(e) => setContrast(Number(e.target.value))}
+                                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500"
+                                            />
+                                        </div>
+
+                                        {/* Hue Shift */}
+                                        <div>
+                                            <div className="flex justify-between text-xs mb-2">
+                                                <span className="text-gray-400">Độ Lệch Màu (Hue Shift)</span>
+                                                <span className="text-purple-400 font-bold">{hueShift}°</span>
+                                            </div>
+                                            <input 
+                                                type="range" min="0" max="60"
+                                                value={hueShift} onChange={(e) => setHueShift(Number(e.target.value))}
+                                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                                            />
+                                            <p className="text-[10px] text-gray-500 mt-1">Làm lạnh vùng tối & làm ấm vùng sáng</p>
+                                        </div>
+
+                                        {/* Saturation Shift */}
+                                        <div>
+                                            <div className="flex justify-between text-xs mb-2">
+                                                <span className="text-gray-400">Độ Bão Hòa (Saturation)</span>
+                                                <span className="text-green-400 font-bold">{satShift}%</span>
+                                            </div>
+                                            <input 
+                                                type="range" min="-20" max="20"
+                                                value={satShift} onChange={(e) => setSatShift(Number(e.target.value))}
+                                                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-green-500"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* RIGHT: Preview & Palette */}
+                        <div className="lg:col-span-2 space-y-8">
+                            
+                            {/* Main Palette Display */}
+                            <div className="bg-[#1f2937] p-6 rounded-3xl border border-gray-700 shadow-2xl flex flex-col items-center">
+                                <h2 className="text-white font-bold mb-6 flex items-center gap-2">
+                                    <Sun className="text-yellow-500" size={20}/>
+                                    Kết Quả
+                                    <Moon className="text-blue-500" size={20}/>
+                                </h2>
+                                
+                                <div className="flex w-full rounded-2xl overflow-hidden shadow-lg h-32 md:h-40 ring-4 ring-gray-800">
+                                    {palette.map((color, idx) => (
+                                        <div 
+                                            key={idx}
+                                            className="flex-1 color-swatch cursor-pointer group relative"
+                                            style={{ backgroundColor: color }}
+                                            onClick={() => copyToClipboard(color)}
+                                            title="Click to copy"
+                                        >
+                                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition bg-black/20 text-white font-mono font-bold text-xs md:text-sm tracking-wider backdrop-blur-sm">
+                                                {color}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-6 flex flex-wrap gap-2 w-full justify-center">
+                                    {palette.map((color, idx) => (
+                                        <div key={idx} className="flex flex-col items-center gap-2">
+                                            <div 
+                                                className="w-10 h-10 md:w-12 md:h-12 rounded-lg border-2 border-gray-600 shadow-md" 
+                                                style={{backgroundColor: color}}
+                                            ></div>
+                                            <span className="text-[10px] md:text-xs text-gray-400 font-mono uppercase">{color}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="w-full mt-8 border-t border-gray-700 pt-6 flex justify-center">
+                                    <button 
+                                        onClick={saveCurrentPalette}
+                                        className="bg-green-600 hover:bg-green-500 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-green-900/50 transition transform active:scale-95"
+                                    >
+                                        <Save size={18} /> Lưu Bảng Màu Này
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Saved Palettes */}
+                            {savedPalettes.length > 0 && (
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                        <Save size={20} className="text-blue-400"/> Đã Lưu
+                                    </h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {savedPalettes.map(p => (
+                                            <div key={p.id} className="bg-[#1f2937] p-4 rounded-xl border border-gray-700 hover:border-gray-500 transition relative group">
+                                                <div className="flex h-12 rounded-lg overflow-hidden mb-3 ring-2 ring-gray-800">
+                                                    {p.colors.map((c, i) => (
+                                                        <div 
+                                                            key={i} 
+                                                            className="flex-1 cursor-pointer hover:opacity-90"
+                                                            style={{backgroundColor: c}}
+                                                            onClick={() => copyToClipboard(c)}
+                                                            title={c}
+                                                        ></div>
+                                                    ))}
+                                                </div>
+                                                <div className="flex justify-between items-center">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-4 h-4 rounded-full border border-gray-600" style={{backgroundColor: p.base}}></div>
+                                                        <span className="text-xs text-gray-500 font-mono">{p.base}</span>
+                                                    </div>
+                                                    <button 
+                                                        onClick={() => deletePalette(p.id)}
+                                                        className="text-gray-600 hover:text-red-500 transition p-1"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
