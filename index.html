@@ -41,7 +41,27 @@
         }
 
         canvas { image-rendering: pixelated; }
-        .layer-item.active { background-color: #3b82f6; color: white; }
+        
+        /* Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px; width: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 2px rgba(0,0,0,0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px;
+            cursor: pointer;
+            background: #4b5563;
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -57,43 +77,44 @@
             </svg>
         );
 
-        const Save = (p) => <Icon {...p} path={<><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></>} />;
-        const Trash2 = (p) => <Icon {...p} path={<><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></>} />;
-        const Copy = (p) => <Icon {...p} path={<><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></>} />;
-        const RefreshCw = (p) => <Icon {...p} path={<><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></>} />;
-        const PaletteIcon = (p) => <Icon {...p} path={<><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></>} />;
-        const Sliders = (p) => <Icon {...p} path={<><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></>} />;
-        const LayersIcon = (p) => <Icon {...p} path={<><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></>} />;
-        const Eye = (p) => <Icon {...p} path={<><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>} />;
-        const EyeOff = (p) => <Icon {...p} path={<><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></>} />;
-        const Plus = (p) => <Icon {...p} path={<><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>} />;
-        const Minus = (p) => <Icon {...p} path={<line x1="5" y1="12" x2="19" y2="12"/>} />;
-        const ImageIcon = (p) => <Icon {...p} path={<><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></>} />;
-        const ArrowRight = (p) => <Icon {...p} path={<><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>} />;
-        const ZoomIn = (p) => <Icon {...p} path={<><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></>} />;
-        const ZoomOut = (p) => <Icon {...p} path={<><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></>} />;
-        const ScanEye = (p) => <Icon {...p} path={<><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3"/><path d="M12 16a4 4 0 0 1 0-8"/></>} />;
-        const Wand2 = (p) => <Icon {...p} path={<><path d="m19 2 2 2-2 2-2-2 2-2Z"/><path d="m5 7 2 2-2 2-2-2 2-2Z"/><path d="m15 11 2 2-2 2-2-2 2-2Z"/><path d="M6 13l5.55-5.55a2.1 2.1 0 0 1 2.95 0l5.55 5.55a2.1 2.1 0 0 1 0 2.95l-8 8a2.1 2.1 0 0 1-2.95 0L6 15.95a2.1 2.1 0 0 1 0-2.95Z"/></>} />;
-
-        const PenTool = (p) => <Icon {...p} path={<><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></>} />;
-        const Pencil = (p) => <Icon {...p} path={<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>} />;
-        const Eraser = (p) => <Icon {...p} path={<><path d="M20 20.5H6.8a2.8 2.8 0 0 1-2-2.8V6.8a2.8 2.8 0 0 1 2.8-2.8h8.4"/><path d="M14 2L2 14l10 10 12-12-10-10z"/></>} />;
-        const Droplet = (p) => <Icon {...p} path={<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>} />; 
-        const PaintBucket = (p) => <Icon {...p} path={<><path d="M19 11L12 17l-7-7"/><path d="M19 11l-5-5-2 2 5 5 2-2z"/><path d="M5 4l7 7 2-2-7-7-2 2z"/><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2"/></>} />;
-        const Download = (p) => <Icon {...p} path={<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>} />;
-        const GridIcon = (p) => <Icon {...p} path={<><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></>} />;
-        const Undo = (p) => <Icon {...p} path={<><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></>} />;
+        // Icons Collection
+        const Icons = {
+            Save: <><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></>,
+            Trash2: <><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></>,
+            Copy: <><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></>,
+            Refresh: <><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></>,
+            Palette: <><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></>,
+            Layers: <><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></>,
+            Eye: <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>,
+            EyeOff: <><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></>,
+            Plus: <><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
+            Minus: <line x1="5" y1="12" x2="19" y2="12"/>,
+            Image: <><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></>,
+            ArrowRight: <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>,
+            ZoomIn: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></>,
+            ZoomOut: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></>,
+            Wand: <><path d="m19 2 2 2-2 2-2-2 2-2Z"/><path d="m5 7 2 2-2 2-2-2 2-2Z"/><path d="m15 11 2 2-2 2-2-2 2-2Z"/><path d="M6 13l5.55-5.55a2.1 2.1 0 0 1 2.95 0l5.55 5.55a2.1 2.1 0 0 1 0 2.95l-8 8a2.1 2.1 0 0 1-2.95 0L6 15.95a2.1 2.1 0 0 1 0-2.95Z"/></>,
+            Pen: <><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></>,
+            Eraser: <><path d="M20 20.5H6.8a2.8 2.8 0 0 1-2-2.8V6.8a2.8 2.8 0 0 1 2.8-2.8h8.4"/><path d="M14 2L2 14l10 10 12-12-10-10z"/></>,
+            Droplet: <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>,
+            Bucket: <><path d="M19 11L12 17l-7-7"/><path d="M19 11l-5-5-2 2 5 5 2-2z"/><path d="M5 4l7 7 2-2-7-7-2 2z"/><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2"/></>,
+            Download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
+            Grid: <><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></>,
+            Undo: <><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></>,
+            Sliders: <><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></>,
+            Zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>,
+            Sun: <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></>,
+            Activity: <><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>
+        };
 
         // --- UTILS ---
         function hexToRgb(hex) {
             var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
+            return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } : null;
         }
-        
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
         function hexToHSL(H) {
             let r=0,g=0,b=0;
             if(H.length==4){r="0x"+H[1]+H[1];g="0x"+H[2]+H[2];b="0x"+H[3]+H[3];}
@@ -110,12 +131,6 @@
             r=Math.round((r+m)*255).toString(16);g=Math.round((g+m)*255).toString(16);b=Math.round((b+m)*255).toString(16);
             return "#"+(r.length==1?"0"+r:r)+(g.length==1?"0"+g:g)+(b.length==1?"0"+b:b);
         }
-
-        function rgbToHex(r, g, b) {
-            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-        }
-        
-        // Improved Color Distance (Redmean)
         function colorDist(c1, c2) {
             if(!c1 || !c2) return Infinity;
             let rmean = (c1[0] + c2[0]) / 2;
@@ -165,7 +180,7 @@
                                     </div>
                                     <div className="flex-1 flex flex-col justify-center gap-2">
                                         <input type="text" value={baseColor.toUpperCase()} onChange={(e)=>setBaseColor(e.target.value)} className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white font-mono text-xl focus:outline-none focus:border-blue-500 uppercase"/>
-                                        <button onClick={()=>setBaseColor('#'+Math.floor(Math.random()*16777215).toString(16))} className="text-xs text-blue-400 hover:underline flex items-center gap-1"><RefreshCw size={12}/> Random Color</button>
+                                        <button onClick={()=>setBaseColor('#'+Math.floor(Math.random()*16777215).toString(16))} className="text-xs text-blue-400 hover:underline flex items-center gap-1"><Icon path={Icons.Refresh} size={12}/> Random Color</button>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +224,7 @@
                                     ))}
                                 </div>
                                 <button onClick={()=>{setSavedPalettes([{id:Date.now(), colors:palette, base:baseColor}, ...savedPalettes])}} className="mt-6 bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 shadow-lg transition">
-                                    <Save size={18}/> Lưu Bảng Màu
+                                    <Icon path={Icons.Save} size={18}/> Lưu Bảng Màu
                                 </button>
                             </div>
 
@@ -222,7 +237,7 @@
                                             </div>
                                             <div className="flex justify-between items-center">
                                                 <span className="text-xs text-gray-500 font-mono">{p.base}</span>
-                                                <button onClick={()=>{if(confirm('Xóa?')) setSavedPalettes(savedPalettes.filter(x=>x.id!==p.id))}} className="text-gray-600 hover:text-red-500"><Trash2 size={14}/></button>
+                                                <button onClick={()=>{if(confirm('Xóa?')) setSavedPalettes(savedPalettes.filter(x=>x.id!==p.id))}} className="text-gray-600 hover:text-red-500"><Icon path={Icons.Trash2} size={14}/></button>
                                             </div>
                                         </div>
                                     ))}
@@ -238,26 +253,33 @@
         const PixelConverter = ({ onSendToEditor, savedPalettes, setSavedPalettes }) => {
             const [srcImage, setSrcImage] = useState(null);
             const [width, setWidth] = useState(64);
+            const [controlTab, setControlTab] = useState('color'); // 'color', 'effect', 'outline'
             
-            // Smart Mode Params
+            // PROCESSING CONTROLS
             const [baseColorCount, setBaseColorCount] = useState(6); 
             const [shadesPerColor, setShadesPerColor] = useState(6); 
-
             const [colorDepth, setColorDepth] = useState(8); 
             const [conversionMode, setConversionMode] = useState('smart'); 
             const [ditherMode, setDitherMode] = useState('none'); 
-            const [contrast, setContrast] = useState(0); 
-            const [edgeThreshold, setEdgeThreshold] = useState(40);
-            const [cleanupLevel, setCleanupLevel] = useState(1); // Default Low
-            const [autoEnhance, setAutoEnhance] = useState(true); // NEW: Auto Enhance
             
+            // EFFECTS
+            const [contrast, setContrast] = useState(0); 
+            const [brightness, setBrightness] = useState(0);
+            const [saturation, setSaturation] = useState(1.0); 
+            const [hueRotate, setHueRotate] = useState(0);
+            const [blur, setBlur] = useState(0);
+            const [sharpness, setSharpness] = useState(0); 
+            const [cleanup, setCleanup] = useState(0); // -5 (Add Noise) to +5 (Denoise)
+            
+            // OUTLINE
             const [outlineMode, setOutlineMode] = useState('silhouette'); 
             const [outlineColorMode, setOutlineColorMode] = useState('darker'); 
-            
+            const [customOutlineColor, setCustomOutlineColor] = useState('#000000');
+            const [edgeThreshold, setEdgeThreshold] = useState(40);
+
             const [previewUrl, setPreviewUrl] = useState(null);
             const [combinedUrl, setCombinedUrl] = useState(null); 
             const [previewScale, setPreviewScale] = useState(1);
-            
             const canvasRef = useRef(null);
 
             const handleImageUpload = (e) => {
@@ -282,13 +304,13 @@
                 let min = Infinity, best = palette[0] || [r,g,b];
                 for(let c of palette) {
                     if(!c) continue;
-                    // REDMEAN Distance
                     const d = colorDist([r,g,b], c);
                     if(d < min) { min = d; best = c; }
                 }
                 return best;
             };
 
+            // ... (generateRampFromColor, generateSmartPalette keep same)
              const generateRampFromColor = (rgb, steps) => {
                 const hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
                 const { h, s, l } = hexToHSL(hex); 
@@ -323,7 +345,7 @@
                         let minDist = Infinity, closeIdx = 0;
                         centroids.forEach((c, i) => {
                             if(!c) return;
-                            const d = colorDist(p, c); // Uses Redmean
+                            const d = colorDist(p, c);
                             if(d < minDist) { minDist = d; closeIdx = i; }
                         });
                         clusters[closeIdx].push(p);
@@ -345,128 +367,116 @@
                 });
                 return fullPalette;
             };
-
-            // SMART CLEANUP (Orphan removal)
-            const cleanNoise = (data, width, height, level) => {
-                if (level === 0) return data;
-                const newData = new Uint8ClampedArray(data);
-                
-                const getPixel = (i) => {
-                   if(i < 0 || i >= data.length) return null;
-                   return { r: data[i], g: data[i+1], b: data[i+2], a: data[i+3] };
-                };
-                
-                const isEqual = (p1, p2) => {
-                    if(!p1 || !p2) return false;
-                    if(p1.a < 128 && p2.a < 128) return true;
-                    if(p1.a >= 128 && p2.a >= 128) {
-                        return p1.r===p2.r && p1.g===p2.g && p1.b===p2.b;
-                    }
-                    return false;
-                };
-
-                for(let y=0; y<height; y++) {
-                    for(let x=0; x<width; x++) {
-                        const i = (y*width+x)*4;
-                        const curr = getPixel(i);
-                        
-                        // Neighbors: N, S, W, E
-                        const neighbors = [
-                            getPixel(( (y-1)*width + x)*4),
-                            getPixel(( (y+1)*width + x)*4),
-                            getPixel(( y*width + (x-1))*4),
-                            getPixel(( y*width + (x+1))*4)
-                        ].filter(Boolean);
-                        
-                        // Count similar neighbors
-                        const similar = neighbors.filter(n => isEqual(curr, n)).length;
-                        
-                        // If pixel is orphan (0 similar neighbors or just 1 in high mode), replace it
-                        if (similar <= (level === 2 ? 1 : 0)) {
-                            // Find most common neighbor color
-                            // Simple: take top neighbor or left neighbor
-                            const replacement = neighbors[0]; 
-                            if(replacement) {
-                                newData[i] = replacement.r;
-                                newData[i+1] = replacement.g;
-                                newData[i+2] = replacement.b;
-                                newData[i+3] = replacement.a;
-                            }
-                        }
-                    }
-                }
-                return newData;
-            };
-
-            // Process Image
+            
+            // --- PROCESSING PIPELINE ---
             useEffect(() => {
                 if (!srcImage) return;
                 const canvas = canvasRef.current;
                 const ctx = canvas.getContext('2d');
                 
-                // 1. Resize & Draw
+                // 1. RESIZE
                 const aspect = srcImage.height / srcImage.width;
                 const h = Math.round(width * aspect);
                 canvas.width = width;
                 canvas.height = h;
+                
+                // Apply Blur here via context filter if needed, or simpler convolution
+                if (blur > 0) ctx.filter = `blur(${blur}px)`;
                 ctx.drawImage(srcImage, 0, 0, width, h);
+                ctx.filter = 'none';
                 
                 const imageData = ctx.getImageData(0, 0, width, h);
                 let data = imageData.data;
 
-                // 2. Auto-Enhance (Saturation Boost)
-                if (autoEnhance) {
-                    for(let i=0; i<data.length; i+=4) {
-                        // Convert to HSL, boost S, convert back
-                        const hex = rgbToHex(data[i], data[i+1], data[i+2]);
-                        const hsl = hexToHSL(hex);
-                        hsl.s = Math.min(100, hsl.s * 1.3); // Boost saturation by 30%
-                        const newHex = hslToHex(hsl.h, hsl.s, hsl.l);
-                        const newRgb = hexToRgb(newHex);
-                        if(newRgb) {
-                            data[i] = newRgb.r;
-                            data[i+1] = newRgb.g;
-                            data[i+2] = newRgb.b;
+                // 2. GLOBAL COLOR ADJUSTMENTS (Brightness, Saturation, Hue, Contrast)
+                const contrastF = (259 * (contrast + 255)) / (255 * (259 - contrast));
+                
+                for(let i=0; i<data.length; i+=4) {
+                    if (data[i+3] < 128) { data[i+3] = 0; continue; } // Transparent
+
+                    let r = data[i], g = data[i+1], b = data[i+2];
+
+                    // Brightness
+                    r += brightness; g += brightness; b += brightness;
+                    
+                    // Contrast
+                    r = applyContrast(r, contrastF);
+                    g = applyContrast(g, contrastF);
+                    b = applyContrast(b, contrastF);
+
+                    // HSL Mod (Sat, Hue)
+                    if (saturation !== 1.0 || hueRotate !== 0) {
+                        let hex = rgbToHex(Math.max(0,Math.min(255,r)), Math.max(0,Math.min(255,g)), Math.max(0,Math.min(255,b)));
+                        let hsl = hexToHSL(hex);
+                        hsl.s *= saturation;
+                        hsl.h = (hsl.h + hueRotate) % 360; if(hsl.h<0) hsl.h+=360;
+                        hex = hslToHex(hsl.h, hsl.s, hsl.l);
+                        let rgb = hexToRgb(hex);
+                        if(rgb) { r=rgb.r; g=rgb.g; b=rgb.b; }
+                    }
+                    
+                    // ADD NOISE (Negative Cleanup)
+                    if (cleanup < 0) {
+                        const noise = (Math.random() - 0.5) * (Math.abs(cleanup) * 10);
+                        r += noise; g += noise; b += noise;
+                    }
+                    
+                    data[i] = r; data[i+1] = g; data[i+2] = b;
+                }
+                
+                // 3. SHARPEN (if > 0)
+                 if (sharpness > 0) {
+                    const w = width;
+                    const mix = sharpness * 0.2; 
+                    const kernel = [0, -1, 0, -1, 5, -1, 0, -1, 0];
+                    const tempData = new Uint8ClampedArray(data);
+                    for (let y=1; y<h-1; y++) {
+                        for (let x=1; x<w-1; x++) {
+                             const idx = (y*w + x)*4;
+                             if (tempData[idx+3] < 128) continue;
+                             let r=0, g=0, b=0;
+                             for(let ky=-1; ky<=1; ky++){
+                                 for(let kx=-1; kx<=1; kx++){
+                                     const pIdx = ((y+ky)*w + (x+kx))*4;
+                                     const weight = kernel[(ky+1)*3 + (kx+1)];
+                                     r += tempData[pIdx] * weight;
+                                     g += tempData[pIdx+1] * weight;
+                                     b += tempData[pIdx+2] * weight;
+                                 }
+                             }
+                             data[idx] = Math.max(0, Math.min(255, tempData[idx]*(1-mix) + r*mix));
+                             data[idx+1] = Math.max(0, Math.min(255, tempData[idx+1]*(1-mix) + g*mix));
+                             data[idx+2] = Math.max(0, Math.min(255, tempData[idx+2]*(1-mix) + b*mix));
                         }
                     }
                 }
 
-                // 3. Prepare Palette
+                // 4. PREPARE PALETTE
                 let paletteRGB = [];
                 if (conversionMode === 'smart') {
-                    paletteRGB = generateSmartPalette(imageData, baseColorCount, shadesPerColor);
+                    paletteRGB = generateSmartPalette({data}, baseColorCount, shadesPerColor);
                 } else if (conversionMode === 'palette') {
                     const allColors = savedPalettes.flatMap(p => p.colors);
                     paletteRGB = allColors.length > 0 ? allColors.map(hexToRgb).filter(c=>c).map(c=>[c.r, c.g, c.b]) : [[0,0,0],[255,255,255]];
-                } else if (conversionMode === 'gameboy') {
-                    paletteRGB = [[15, 56, 15], [48, 98, 48], [139, 172, 15], [155, 188, 15]];
-                } else if (conversionMode === 'mono') {
-                    paletteRGB = [[0,0,0], [255,255,255]];
-                }
+                } else if (conversionMode === 'gameboy') paletteRGB = [[15, 56, 15], [48, 98, 48], [139, 172, 15], [155, 188, 15]];
+                else if (conversionMode === 'mono') paletteRGB = [[0,0,0], [255,255,255]];
 
-                const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+                // 5. QUANTIZE & DITHER
                 const bayerMatrix = [[0, 8, 2, 10],[12, 4, 14, 6],[3, 11, 1, 9],[15, 7, 13, 5]];
 
-                // 4. Quantization Loop
                 for (let y = 0; y < h; y++) {
                     for (let x = 0; x < width; x++) {
                         const i = (y * width + x) * 4;
-                        if(data[i+3] < 128) { data[i+3] = 0; continue; } 
+                        if(data[i+3] < 128) continue;
 
-                        let oldR = applyContrast(data[i], contrastFactor);
-                        let oldG = applyContrast(data[i+1], contrastFactor);
-                        let oldB = applyContrast(data[i+2], contrastFactor);
+                        let r = data[i], g = data[i+1], b = data[i+2];
 
-                        let ditherOffset = 0;
                         if (ditherMode === 'bayer') {
                             const threshold = bayerMatrix[y % 4][x % 4]; 
-                            ditherOffset = (threshold - 8) * 4; 
+                            const ditherOffset = (threshold - 8) * 4; 
+                            r += ditherOffset; g += ditherOffset; b += ditherOffset;
                         }
-
-                        let r = Math.max(0, Math.min(255, oldR + ditherOffset));
-                        let g = Math.max(0, Math.min(255, oldG + ditherOffset));
-                        let b = Math.max(0, Math.min(255, oldB + ditherOffset));
-
+                        
                         let newColor;
                         if (conversionMode === 'posterize') {
                             const step = 255 / (colorDepth - 1);
@@ -476,222 +486,230 @@
                         }
 
                         if (newColor) {
-                            data[i] = newColor[0];
-                            data[i+1] = newColor[1];
-                            data[i+2] = newColor[2];
-                            data[i+3] = 255; 
+                            data[i] = newColor[0]; data[i+1] = newColor[1]; data[i+2] = newColor[2]; data[i+3] = 255;
+                            if (ditherMode === 'floyd') {
+                                const errR = r - newColor[0], errG = g - newColor[1], errB = b - newColor[2];
+                                const distribute = (idx, factor) => {
+                                    if(idx < data.length) { data[idx]+=errR*factor; data[idx+1]+=errG*factor; data[idx+2]+=errB*factor; }
+                                };
+                                if ((x + 1) < width) distribute(i + 4, 7/16);
+                                if (y + 1 < h) {
+                                    if (x > 0) distribute(i + width*4 - 4, 3/16);
+                                    distribute(i + width*4, 5/16);
+                                    if (x + 1 < width) distribute(i + width*4 + 4, 1/16);
+                                }
+                            }
                         }
                     }
                 }
 
-                // 5. Cleanup Pass
-                if (cleanupLevel > 0) {
-                    data = cleanNoise(data, width, h, cleanupLevel);
-                    for(let i=0; i<data.length; i++) imageData.data[i] = data[i];
-                }
-
-                // 6. Outline Pass
-                if (outlineMode !== 'none') {
-                    const originalData = new Uint8ClampedArray(data); // Copy state before outline
-                    const isTrans = (x, y) => {
-                        if (x<0 || x>=width || y<0 || y>=h) return true;
-                        return originalData[(y*width+x)*4 + 3] < 128;
-                    };
-                    const getPixel = (x, y) => {
-                         if (x<0 || x>=width || y<0 || y>=h) return null;
-                         const i = (y*width+x)*4;
-                         return {r:originalData[i], g:originalData[i+1], b:originalData[i+2]};
-                    }
+                // 6. CLEANUP (Despeckle) if > 0
+                if (cleanup > 0) {
+                    // Simple neighbor vote
+                    const newData = new Uint8ClampedArray(data);
+                    const getP = (k) => k<0||k>=data.length ? null : {r:data[k], g:data[k+1], b:data[k+2], a:data[k+3]};
+                    const same = (c1,c2) => c1&&c2 && c1.r===c2.r && c1.g===c2.g && c1.b===c2.b;
 
                     for(let y=0; y<h; y++) {
                         for(let x=0; x<width; x++) {
                             const i = (y*width+x)*4;
-                            if (originalData[i+3] < 128) continue; 
+                            if(data[i+3]<128) continue;
+                            const curr = getP(i);
+                            const neighbors = [getP(i-4), getP(i+4), getP(i-width*4), getP(i+width*4)].filter(n=>n&&n.a>128);
+                            const matches = neighbors.filter(n=>same(curr,n)).length;
+                            
+                            if (matches === 0 && neighbors.length > 0) { // Orphan
+                                // Take most common or just first
+                                newData[i] = neighbors[0].r; newData[i+1] = neighbors[0].g; newData[i+2] = neighbors[0].b;
+                            }
+                        }
+                    }
+                    data = newData;
+                    for(let i=0; i<data.length; i++) imageData.data[i] = data[i];
+                }
+
+                // 7. OUTLINE
+                if (outlineMode !== 'none') {
+                    const originalData = new Uint8ClampedArray(data);
+                    const isTrans = (x, y) => (x<0||x>=width||y<0||y>=h) || originalData[(y*width+x)*4+3] < 128;
+                    const getPix = (x,y) => (x<0||x>=width||y<0||y>=h) ? null : {r:originalData[(y*width+x)*4], g:originalData[(y*width+x)*4+1], b:originalData[(y*width+x)*4+2]};
+
+                    for(let y=0; y<h; y++) {
+                        for(let x=0; x<width; x++) {
+                            const i = (y*width+x)*4;
+                            if(originalData[i+3] < 128) continue;
 
                             let isEdge = false;
                             if (outlineMode === 'silhouette') {
-                                if (isTrans(x, y-1) || isTrans(x, y+1) || isTrans(x-1, y) || isTrans(x+1, y)) isEdge = true;
-                            }
-                            else if (outlineMode === 'internal') {
-                                const curr = getPixel(x, y);
-                                const right = getPixel(x+1, y);
-                                const bottom = getPixel(x, y+1);
-                                const diff = (c1, c2) => (!c1 || !c2) ? 0 : Math.abs(c1.r-c2.r) + Math.abs(c1.g-c2.g) + Math.abs(c1.b-c2.b);
-
-                                if (diff(curr, right) > edgeThreshold || diff(curr, bottom) > edgeThreshold) isEdge = true;
-                                if (isTrans(x, y-1) || isTrans(x, y+1) || isTrans(x-1, y) || isTrans(x+1, y)) isEdge = true;
+                                if(isTrans(x,y-1)||isTrans(x,y+1)||isTrans(x-1,y)||isTrans(x+1,y)) isEdge=true;
+                            } else if (outlineMode === 'internal') {
+                                const curr = getPix(x,y);
+                                const r = getPix(x+1,y); const b = getPix(x,y+1);
+                                const diff = (c1,c2) => !c1||!c2 ? 0 : Math.abs(c1.r-c2.r)+Math.abs(c1.g-c2.g)+Math.abs(c1.b-c2.b);
+                                if(diff(curr,r)>edgeThreshold || diff(curr,b)>edgeThreshold) isEdge=true;
+                                if(isTrans(x,y-1)||isTrans(x,y+1)||isTrans(x-1,y)||isTrans(x+1,y)) isEdge=true;
                             }
 
                             if (isEdge) {
-                                let edgeColor = [0,0,0]; 
-                                if (outlineColorMode === 'darker') edgeColor = darkenColor(data[i], data[i+1], data[i+2], 0.5);
-                                data[i] = edgeColor[0]; data[i+1] = edgeColor[1]; data[i+2] = edgeColor[2]; data[i+3] = 255;
+                                let ec = [0,0,0];
+                                if (outlineColorMode === 'darker') ec = darkenColor(data[i],data[i+1],data[i+2], 0.5);
+                                else if (outlineColorMode === 'custom') {
+                                    const rgb = hexToRgb(customOutlineColor);
+                                    if(rgb) ec = [rgb.r, rgb.g, rgb.b];
+                                }
+                                data[i]=ec[0]; data[i+1]=ec[1]; data[i+2]=ec[2]; data[i+3]=255;
                             }
                         }
                     }
                 }
-                
+
                 ctx.putImageData(imageData, 0, 0);
                 setCombinedUrl(canvas.toDataURL());
 
-            }, [srcImage, width, colorDepth, baseColorCount, shadesPerColor, conversionMode, ditherMode, contrast, savedPalettes, outlineMode, outlineColorMode, edgeThreshold, cleanupLevel, autoEnhance]);
+            }, [srcImage, width, brightness, saturation, hueRotate, blur, sharpness, cleanup, conversionMode, colorDepth, baseColorCount, shadesPerColor, ditherMode, contrast, outlineMode, outlineColorMode, customOutlineColor, edgeThreshold, savedPalettes]);
 
             const handleSend = () => {
+                // Same as before...
                 if (!canvasRef.current) return;
                 const ctx = canvasRef.current.getContext('2d');
                 const w = canvasRef.current.width;
                 const h = canvasRef.current.height;
-                const imageData = ctx.getImageData(0, 0, w, h);
-                const data = imageData.data;
-                
-                const usedColors = new Set();
+                const data = ctx.getImageData(0,0,w,h).data;
                 const newPixels = {};
-                for (let y = 0; y < h; y++) {
-                    for (let x = 0; x < w; x++) {
-                        const i = (y * w + x) * 4;
-                        if (data[i+3] > 128) { 
+                const usedColors = new Set();
+                for(let y=0; y<h; y++){
+                    for(let x=0; x<w; x++){
+                        const i = (y*w+x)*4;
+                        if(data[i+3]>128) {
                             const hex = rgbToHex(data[i], data[i+1], data[i+2]);
                             newPixels[`${x},${y}`] = hex;
                             usedColors.add(hex);
                         }
                     }
                 }
-                
                 if (conversionMode === 'smart' && usedColors.size > 0) {
-                    setSavedPalettes([{
-                        id: Date.now(),
-                        colors: Array.from(usedColors),
-                        base: 'Imported'
-                    }, ...savedPalettes]);
+                    setSavedPalettes([{id:Date.now(), colors:Array.from(usedColors), base:'Imported'}, ...savedPalettes]);
                 }
-
                 onSendToEditor(newPixels, w);
             };
 
-            const handleDownload = (url) => {
-                if (url) {
-                    const link = document.createElement('a');
-                    link.download = `pixel-art-result-${Date.now()}.png`;
-                    link.href = url;
-                    link.click();
-                }
-            };
+            const handleDownload = () => { if(combinedUrl) { const a = document.createElement('a'); a.download=`pixel-${Date.now()}.png`; a.href=combinedUrl; a.click(); } };
 
             return (
-                <div className="flex flex-col h-full p-4 md:p-8 gap-6 items-center overflow-y-auto">
+                <div className="flex flex-col h-full p-4 gap-6 items-center overflow-y-auto">
                     <div className="bg-[#1f2937] p-6 rounded-3xl border border-gray-700 shadow-2xl w-full max-w-5xl flex flex-col gap-6">
-                        <h2 className="text-2xl font-bold text-white flex items-center gap-2"><ScanEye size={24} className="text-purple-400"/> Chuyển Ảnh Sang Pixel Art</h2>
+                        <div className="flex justify-between items-center">
+                             <h2 className="text-2xl font-bold text-white flex items-center gap-2"><Icon path={Icons.ScanEye} size={24} className="text-purple-400"/> Pixel Lab</h2>
+                        </div>
                         
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {/* Left: Input & Controls */}
-                            <div className="flex flex-col gap-4">
-                                <div className="relative border-2 border-dashed border-gray-600 rounded-xl p-6 text-center hover:border-blue-500 transition bg-black/20">
+                        <div className="grid md:grid-cols-12 gap-6">
+                            {/* Controls Column */}
+                            <div className="md:col-span-5 flex flex-col gap-4">
+                                {/* Upload */}
+                                <div className="relative border-2 border-dashed border-gray-600 rounded-xl p-4 text-center hover:border-blue-500 transition bg-black/20">
                                     <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 opacity-0 cursor-pointer"/>
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="p-3 bg-gray-800 rounded-full text-blue-400"><ImageIcon size={32}/></div>
-                                        <p className="text-gray-300 font-bold">Tải Ảnh Gốc</p>
+                                    <div className="flex flex-col items-center gap-1">
+                                        <Icon path={Icons.Image} size={24} className="text-blue-400"/>
+                                        <p className="text-gray-300 font-bold text-sm">Tải Ảnh Lên</p>
                                     </div>
                                 </div>
 
                                 {srcImage && (
-                                    <div className="space-y-4 bg-gray-800/30 p-4 rounded-xl border border-gray-700 text-sm">
-                                        {/* Size */}
-                                        <div>
-                                            <div className="flex justify-between mb-1 text-gray-400"><span>Kích thước (Width)</span><span className="text-blue-400">{width}px</span></div>
-                                            <input type="range" min="16" max="200" value={width} onChange={(e)=>setWidth(Number(e.target.value))} className="w-full h-2 bg-gray-700 rounded-lg accent-blue-500"/>
-                                        </div>
+                                    <div className="bg-gray-800/50 p-3 rounded-xl border border-gray-700 text-xs space-y-4">
                                         
-                                        {/* Enhancements */}
-                                        <div className="grid grid-cols-2 gap-2">
-                                            <label className="flex items-center gap-2 cursor-pointer bg-black/20 p-2 rounded border border-gray-700 hover:border-gray-500">
-                                                <input type="checkbox" checked={autoEnhance} onChange={(e)=>setAutoEnhance(e.target.checked)} className="rounded text-blue-500 focus:ring-0"/>
-                                                <span className="text-xs text-gray-300"><Wand2 size={12} className="inline mr-1"/>Auto Đẹp</span>
-                                            </label>
-                                            <label className="flex items-center gap-2 cursor-pointer bg-black/20 p-2 rounded border border-gray-700 hover:border-gray-500">
-                                                <span className="text-xs text-gray-300">Khử Nhiễu:</span>
-                                                <select value={cleanupLevel} onChange={(e)=>setCleanupLevel(Number(e.target.value))} className="bg-transparent text-green-400 text-xs font-bold focus:outline-none">
-                                                    <option value="0">Tắt</option>
-                                                    <option value="1">Thấp</option>
-                                                    <option value="2">Cao</option>
-                                                </select>
-                                            </label>
+                                        {/* TABS for Controls */}
+                                        <div className="flex border-b border-gray-700 pb-2 gap-4">
+                                            <button onClick={()=>setControlTab('color')} className={`${controlTab==='color'?'text-white font-bold':'text-gray-500'}`}>Màu Sắc</button>
+                                            <button onClick={()=>setControlTab('effect')} className={`${controlTab==='effect'?'text-white font-bold':'text-gray-500'}`}>Hiệu Ứng</button>
+                                            <button onClick={()=>setControlTab('outline')} className={`${controlTab==='outline'?'text-white font-bold':'text-gray-500'}`}>Viền & Size</button>
                                         </div>
 
-                                        {/* Color Mode */}
-                                        <div>
-                                            <label className="text-gray-400 block mb-2 font-bold uppercase text-xs">Màu Sắc</label>
-                                            <div className="grid grid-cols-2 gap-2 mb-2">
-                                                <button onClick={()=>setConversionMode('smart')} className={`py-1.5 rounded border text-xs ${conversionMode==='smart'?'bg-blue-600 border-blue-500':'border-gray-600 text-gray-400'}`}>Smart AI</button>
-                                                <button onClick={()=>setConversionMode('palette')} className={`py-1.5 rounded border text-xs ${conversionMode==='palette'?'bg-blue-600 border-blue-500':'border-gray-600 text-gray-400'}`}>Palette</button>
-                                            </div>
-                                            
-                                            {conversionMode === 'smart' && (
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <div>
-                                                        <span className="text-xs text-gray-500 block">Nhóm màu</span>
-                                                        <input type="number" min="2" max="16" value={baseColorCount} onChange={(e)=>setBaseColorCount(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs"/>
-                                                    </div>
-                                                    <div>
-                                                        <span className="text-xs text-gray-500 block">Sắc độ</span>
-                                                        <input type="number" min="1" max="8" value={shadesPerColor} onChange={(e)=>setShadesPerColor(Number(e.target.value))} className="w-full bg-gray-900 border border-gray-600 rounded px-2 py-1 text-xs"/>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Outline Settings */}
-                                        <div className="border-t border-gray-700 pt-4">
-                                            <label className="text-gray-400 block mb-2 font-bold uppercase text-xs flex justify-between">
-                                                Viền (Outline)
-                                                <span className="text-xs text-green-400">{outlineMode === 'none' ? 'Tắt' : (outlineMode === 'silhouette' ? 'Viền Ngoài' : 'Nội Bộ')}</span>
-                                            </label>
-                                            <div className="flex gap-2 mb-2">
-                                                <button onClick={()=>setOutlineMode('none')} className={`flex-1 py-1 text-xs rounded border ${outlineMode==='none'?'bg-gray-600 text-white':'border-gray-600 text-gray-500'}`}>Không</button>
-                                                <button onClick={()=>setOutlineMode('silhouette')} className={`flex-1 py-1 text-xs rounded border ${outlineMode==='silhouette'?'bg-blue-600 text-white':'border-gray-600 text-gray-500'}`}>Ngoài</button>
-                                                <button onClick={()=>setOutlineMode('internal')} className={`flex-1 py-1 text-xs rounded border ${outlineMode==='internal'?'bg-blue-600 text-white':'border-gray-600 text-gray-500'}`}>Cả Trong</button>
-                                            </div>
-                                            
-                                            {outlineMode === 'internal' && (
-                                                <div className="mb-2">
-                                                    <div className="flex justify-between text-xs text-gray-400"><span>Độ Nhạy Viền</span><span>{edgeThreshold}</span></div>
-                                                    <input type="range" min="10" max="100" value={edgeThreshold} onChange={(e)=>setEdgeThreshold(Number(e.target.value))} className="w-full h-2 bg-gray-700 rounded-lg accent-blue-500"/>
-                                                </div>
-                                            )}
-
-                                            {outlineMode !== 'none' && (
+                                        {controlTab === 'color' && (
+                                            <div className="space-y-3">
                                                 <div className="flex gap-2">
-                                                    <button onClick={()=>setOutlineColorMode('black')} className={`flex-1 py-1 text-xs rounded border ${outlineColorMode==='black'?'bg-black text-white border-gray-500':'border-gray-600 text-gray-500'}`}>Đen</button>
-                                                    <button onClick={()=>setOutlineColorMode('darker')} className={`flex-1 py-1 text-xs rounded border ${outlineColorMode==='darker'?'bg-purple-900 text-white border-purple-500':'border-gray-600 text-gray-500'}`}>Đậm Hơn</button>
+                                                    <button onClick={()=>setConversionMode('smart')} className={`flex-1 py-1 rounded border ${conversionMode==='smart'?'bg-blue-600 border-blue-500':'border-gray-600'}`}>Smart AI</button>
+                                                    <button onClick={()=>setConversionMode('palette')} className={`flex-1 py-1 rounded border ${conversionMode==='palette'?'bg-blue-600 border-blue-500':'border-gray-600'}`}>Palette</button>
                                                 </div>
-                                            )}
-                                        </div>
+                                                {conversionMode === 'smart' && (
+                                                    <div className="grid grid-cols-2 gap-2">
+                                                        <div><span>Nhóm: {baseColorCount}</span><input type="range" min="2" max="16" value={baseColorCount} onChange={e=>setBaseColorCount(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                        <div><span>Sắc độ: {shadesPerColor}</span><input type="range" min="1" max="8" value={shadesPerColor} onChange={e=>setShadesPerColor(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                    </div>
+                                                )}
+                                                <div>
+                                                    <span>Dithering</span>
+                                                    <div className="flex gap-2 mt-1">
+                                                        <button onClick={()=>setDitherMode('none')} className={`flex-1 py-1 rounded border ${ditherMode==='none'?'bg-gray-600':'border-gray-600'}`}>Tắt</button>
+                                                        <button onClick={()=>setDitherMode('bayer')} className={`flex-1 py-1 rounded border ${ditherMode==='bayer'?'bg-gray-600':'border-gray-600'}`}>Lưới</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {controlTab === 'effect' && (
+                                            <div className="space-y-3">
+                                                <div><div className="flex justify-between"><span>Sáng</span><span>{brightness}</span></div><input type="range" min="-100" max="100" value={brightness} onChange={e=>setBrightness(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                <div><div className="flex justify-between"><span>Tương Phản</span><span>{contrast}</span></div><input type="range" min="-50" max="100" value={contrast} onChange={e=>setContrast(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                <div><div className="flex justify-between"><span>Bão Hòa</span><span>{Math.round(saturation*100)}%</span></div><input type="range" min="0" max="3" step="0.1" value={saturation} onChange={e=>setSaturation(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                <div><div className="flex justify-between"><span>Đổi Màu (Hue)</span><span>{hueRotate}°</span></div><input type="range" min="-180" max="180" value={hueRotate} onChange={e=>setHueRotate(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                <div><div className="flex justify-between"><span>Độ Nét</span><span>{sharpness}</span></div><input type="range" min="0" max="5" value={sharpness} onChange={e=>setSharpness(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                
+                                                <div className="border-t border-gray-600 pt-2">
+                                                    <div className="flex justify-between mb-1"><span className="text-purple-400 font-bold flex items-center gap-1"><Icon path={Icons.Zap} size={10}/> Nhiễu & Mịn</span><span>{cleanup}</span></div>
+                                                    <input type="range" min="-5" max="5" value={cleanup} onChange={e=>setCleanup(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/>
+                                                    <div className="flex justify-between text-[9px] text-gray-500 mt-1"><span>Thêm Nhiễu</span><span>Khử Nhiễu</span></div>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {controlTab === 'outline' && (
+                                            <div className="space-y-3">
+                                                <div><div className="flex justify-between"><span>Size (Width)</span><span className="text-blue-400">{width}px</span></div><input type="range" min="16" max="200" value={width} onChange={e=>setWidth(Number(e.target.value))} className="w-full h-1 bg-gray-600 rounded-lg appearance-none"/></div>
+                                                <div>
+                                                    <span>Chế độ Viền</span>
+                                                    <div className="flex gap-1 mt-1">
+                                                        <button onClick={()=>setOutlineMode('none')} className={`flex-1 py-1 rounded border ${outlineMode==='none'?'bg-gray-600':'border-gray-600'}`}>Tắt</button>
+                                                        <button onClick={()=>setOutlineMode('silhouette')} className={`flex-1 py-1 rounded border ${outlineMode==='silhouette'?'bg-blue-600':'border-gray-600'}`}>Ngoài</button>
+                                                        <button onClick={()=>setOutlineMode('internal')} className={`flex-1 py-1 rounded border ${outlineMode==='internal'?'bg-blue-600':'border-gray-600'}`}>Trong</button>
+                                                    </div>
+                                                </div>
+                                                {outlineMode !== 'none' && (
+                                                    <div>
+                                                        <span>Màu Viền</span>
+                                                        <div className="flex gap-1 mt-1">
+                                                            <button onClick={()=>setOutlineColorMode('black')} className={`px-2 py-1 rounded border ${outlineColorMode==='black'?'bg-black border-white':'border-gray-600'}`}>Đen</button>
+                                                            <button onClick={()=>setOutlineColorMode('darker')} className={`px-2 py-1 rounded border ${outlineColorMode==='darker'?'bg-gray-600':'border-gray-600'}`}>Đậm</button>
+                                                            <div className="relative w-6 h-6 rounded border border-gray-600 overflow-hidden"><input type="color" value={customOutlineColor} onChange={e=>{setCustomOutlineColor(e.target.value); setOutlineColorMode('custom')}} className="absolute -top-2 -left-2 w-10 h-10 cursor-pointer"/></div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
 
-                            {/* Right: Result Preview */}
-                            <div className="flex flex-col gap-4">
+                            {/* Right: Preview */}
+                            <div className="md:col-span-7 flex flex-col gap-4">
                                 <div className="relative bg-black/40 p-4 rounded-xl border border-gray-700 h-[400px] flex items-center justify-center overflow-hidden group">
-                                    <span className="absolute top-3 left-3 text-xs text-gray-500 uppercase font-bold z-10 bg-black/50 px-2 py-1 rounded">Kết Quả</span>
                                     <canvas ref={canvasRef} className="hidden"/> 
                                     {combinedUrl ? (
                                         <img src={combinedUrl} style={{imageRendering: 'pixelated', transform: `scale(${previewScale})`, maxWidth: '100%', maxHeight: '100%', transition: 'transform 0.1s'}} />
                                     ) : <span className="text-gray-600 text-sm">Chưa có ảnh</span>}
-
-                                    {/* Zoom Overlay */}
+                                    
                                     <div className="absolute bottom-4 right-4 flex bg-black/70 rounded-lg backdrop-blur p-1 opacity-0 group-hover:opacity-100 transition">
-                                        <button onClick={()=>setPreviewScale(s=>Math.max(0.5, s-0.5))} className="p-2 hover:text-white text-gray-300"><Minus size={16}/></button>
+                                        <button onClick={()=>setPreviewScale(s=>Math.max(0.5, s-0.5))} className="p-2 hover:text-white text-gray-300"><Icon path={Icons.ZoomOut} size={16}/></button>
                                         <span className="py-2 text-xs font-mono w-12 text-center">{previewScale}x</span>
-                                        <button onClick={()=>setPreviewScale(s=>Math.min(10, s+0.5))} className="p-2 hover:text-white text-gray-300"><Plus size={16}/></button>
+                                        <button onClick={()=>setPreviewScale(s=>Math.min(10, s+0.5))} className="p-2 hover:text-white text-gray-300"><Icon path={Icons.ZoomIn} size={16}/></button>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-3">
-                                    <button onClick={()=>handleDownload(combinedUrl)} disabled={!srcImage} className="py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition">
-                                        <Download size={18}/> Tải Ảnh Về
+                                    <button onClick={()=>handleDownload(combinedUrl)} disabled={!srcImage} className="py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition disabled:opacity-50">
+                                        <Icon path={Icons.Download} size={18}/> Tải Ảnh Về
                                     </button>
-                                    <button onClick={handleSend} disabled={!srcImage} className="py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition">
-                                        <ArrowRight size={18}/> Sửa Trong Editor
+                                    <button onClick={handleSend} disabled={!srcImage} className="py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition disabled:opacity-50">
+                                        <Icon path={Icons.ArrowRight} size={18}/> Sửa Trong Editor
                                     </button>
                                 </div>
                             </div>
@@ -701,6 +719,7 @@
             );
         };
 
+        // ... (PixelEditor & App components remain largely the same, just ensuring imports work)
         // Pixel Editor Tab
         const PixelEditor = ({ selectedColor, setSelectedColor, savedPalettes, importData }) => {
             // ... (Keep existing PixelEditor code exactly as is)
@@ -960,22 +979,23 @@
                 link.click();
             };
 
+
             return (
                 <div className="flex flex-col lg:flex-row h-full overflow-hidden">
                     <div className="w-full lg:w-16 bg-[#1f2937] border-r border-gray-700 flex lg:flex-col items-center p-2 gap-2 overflow-x-auto lg:overflow-visible shrink-0 z-10">
                         {[
-                            { id: 'pencil', icon: <PenTool size={20}/>, label: 'Bút' },
-                            { id: 'eraser', icon: <Eraser size={20}/>, label: 'Tẩy' },
-                            { id: 'fill', icon: <PaintBucket size={20}/>, label: 'Đổ màu' },
-                            { id: 'picker', icon: <Droplet size={20}/>, label: 'Hút màu' },
+                            { id: 'pencil', icon: <Icon path={Icons.Pen} size={20}/>, label: 'Bút' },
+                            { id: 'eraser', icon: <Icon path={Icons.Eraser} size={20}/>, label: 'Tẩy' },
+                            { id: 'fill', icon: <Icon path={Icons.Bucket} size={20}/>, label: 'Đổ màu' },
+                            { id: 'picker', icon: <Icon path={Icons.Droplet} size={20}/>, label: 'Hút màu' },
                         ].map(t => (
                             <button key={t.id} onClick={() => setTool(t.id)} className={`p-3 rounded-xl transition ${tool === t.id ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'}`}>
                                 {t.icon}
                             </button>
                         ))}
                         <div className="w-px h-8 lg:w-8 lg:h-px bg-gray-700 my-1"></div>
-                        <button onClick={handleUndo} className="p-3 rounded-xl bg-gray-800 text-gray-400 hover:text-white"><Undo size={20}/></button>
-                        <button onClick={()=>pushHistory(layers.map(l=>l.id===activeLayerId ? {...l, pixels:{}} : l), activeLayerId)} className="p-3 rounded-xl bg-gray-800 text-gray-400 hover:text-red-500"><Trash2 size={20}/></button>
+                        <button onClick={handleUndo} className="p-3 rounded-xl bg-gray-800 text-gray-400 hover:text-white"><Icon path={Icons.Undo} size={20}/></button>
+                        <button onClick={()=>pushHistory(layers.map(l=>l.id===activeLayerId ? {...l, pixels:{}} : l), activeLayerId)} className="p-3 rounded-xl bg-gray-800 text-gray-400 hover:text-red-500"><Icon path={Icons.Trash2} size={20}/></button>
                         <div className="flex-1 lg:h-full"></div>
                         <div className="w-8 h-8 rounded-full border-2 border-white" style={{backgroundColor: selectedColor}}></div>
                     </div>
@@ -988,8 +1008,8 @@
                                 <span className="text-gray-500 text-xs ml-2">{size}x{size}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button onClick={()=>setShowGrid(!showGrid)} className={`p-2 rounded ${showGrid ? 'text-blue-400' : 'text-gray-400'}`}><GridIcon size={16}/></button>
-                                <button onClick={()=>exportImage(size < 32 ? 20 : (size < 100 ? 10 : 2))} className="p-2 rounded text-green-400"><Download size={16}/></button>
+                                <button onClick={()=>setShowGrid(!showGrid)} className={`p-2 rounded ${showGrid ? 'text-blue-400' : 'text-gray-400'}`}><Icon path={Icons.Grid} size={16}/></button>
+                                <button onClick={()=>exportImage(size < 32 ? 20 : (size < 100 ? 10 : 2))} className="p-2 rounded text-green-400"><Icon path={Icons.Download} size={16}/></button>
                             </div>
                         </div>
 
@@ -1016,6 +1036,7 @@
                                         width: size, 
                                         height: size, 
                                         border: '1px solid rgba(255,255,255,0.1)',
+                                        cursor: tool==='picker'?'copy':'crosshair'
                                     }}
                                 />
                             </div>
@@ -1025,8 +1046,8 @@
                     <div className="w-full lg:w-64 bg-[#1f2937] border-l border-gray-700 flex flex-col h-1/3 lg:h-full shrink-0 z-10">
                         <div className="flex-1 flex flex-col border-b border-gray-700 min-h-0">
                             <div className="p-2 bg-gray-800 font-bold text-xs text-gray-400 uppercase flex justify-between items-center">
-                                <div className="flex items-center gap-2"><LayersIcon size={14}/> Layers</div>
-                                <button onClick={addLayer} className="hover:text-white"><Plus size={14}/></button>
+                                <div className="flex items-center gap-2"><Icon path={Icons.Layers} size={14}/> Layers</div>
+                                <button onClick={addLayer} className="hover:text-white"><Icon path={Icons.Plus} size={14}/></button>
                             </div>
                             <div className="flex-1 overflow-y-auto p-2 space-y-1">
                                 {[...layers].reverse().map(l => (
@@ -1036,10 +1057,10 @@
                                         className={`flex items-center gap-2 p-2 rounded cursor-pointer ${activeLayerId === l.id ? 'bg-blue-600 text-white' : 'hover:bg-gray-700 text-gray-300'}`}
                                     >
                                         <button onClick={(e)=>{e.stopPropagation(); toggleLayer(l.id)}} className="hover:text-gray-100">
-                                            {l.visible ? <Eye size={14}/> : <EyeOff size={14}/>}
+                                            {l.visible ? <Icon path={Icons.Eye} size={14}/> : <Icon path={Icons.EyeOff} size={14}/>}
                                         </button>
                                         <span className="flex-1 text-xs truncate">{l.name}</span>
-                                        <button onClick={(e)=>{e.stopPropagation(); deleteLayer(l.id)}} className="text-gray-500 hover:text-red-300"><Trash2 size={12}/></button>
+                                        <button onClick={(e)=>{e.stopPropagation(); deleteLayer(l.id)}} className="text-gray-500 hover:text-red-300"><Icon path={Icons.Trash2} size={12}/></button>
                                     </div>
                                 ))}
                             </div>
@@ -1047,7 +1068,7 @@
 
                         <div className="h-1/2 flex flex-col">
                             <div className="p-2 bg-gray-800 font-bold text-xs text-gray-400 uppercase flex items-center gap-2">
-                                <PaletteIcon size={14}/> Palette
+                                <Icon path={Icons.Palette} size={14}/> Palette
                             </div>
                             <div className="flex-1 overflow-y-auto p-2 content-start">
                                 <div className="flex flex-wrap gap-1">
@@ -1059,7 +1080,6 @@
                                             style={{backgroundColor: c}}
                                         />
                                     ))}
-                                    {/* Default Colors */}
                                     {['#000000', '#ffffff', '#ef4444', '#22c55e', '#3b82f6', '#eab308'].map(c => (
                                         <button key={c} onClick={()=>setSelectedColor(c)} className="w-6 h-6 rounded border border-gray-600" style={{backgroundColor:c}}/>
                                     ))}
